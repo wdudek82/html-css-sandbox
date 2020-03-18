@@ -1,6 +1,20 @@
-const mainStyles = document.getElementById('main-styles');
+const linkedStylesheets = document.querySelectorAll('link[rel="stylesheet"]');
 const timestamp = new Date().getTime();
 
-mainStyles.setAttribute('href', `./styles.css?time=${timestamp}`)
+function removeQueryParam(url) {
+  if (!url) {
+    return;
+  }
+  return url.split('?')[0];
+}
 
-console.log('=== main styles:', mainStyles.getAttribute('href'));
+function main() {
+  for (const linkedStylesheet of linkedStylesheets) {
+    const url = removeQueryParam(linkedStylesheet.getAttribute('href'));
+    if (url) {
+      linkedStylesheet.setAttribute('href', `${url}?time=${timestamp}`)
+    }
+  }
+}
+
+main();
